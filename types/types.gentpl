@@ -1,0 +1,42 @@
+package lapsus
+
+type Kind uint
+
+const (
+	ErrKindGeneral Kind = iota{{ range $t := .Types }}
+	ErrKind{{ $t }}{{ end}}
+)
+
+func kindName(k Kind) string {
+	var m = map[Kind]string{
+		ErrKindGeneral: "General",{{ range $t := .Types }}
+		ErrKind{{ $t }}: "{{ $t }}",{{ end}}
+	}
+
+	return m[k]
+}
+
+func ParseKind(code string) Kind {
+	var m = map[string]Kind{
+		"General": ErrKindGeneral,{{ range $t := .Types }}
+		"{{ $t }}": ErrKind{{ $t }},{{ end}}
+	}
+
+	if kind, ok := m[code]; ok {
+	    return kind
+	}
+
+	return ErrKindGeneral
+}
+
+{{range $t := .Types}}
+// New{{ $t }}Error returns an {{ $t }} error.
+func New{{ $t }}Error(message string, args ...interface{}) Error {
+	return New(ErrKind{{ $t }}, message, args...)
+}
+
+// New{{ $t }}Factory returns an error factory that creates {{ $t }} user-friendly errors.
+func New{{ $t }}Factory(template string) Factory {
+	return NewFactory(ErrKind{{ $t }}, template)
+}
+{{end}}
