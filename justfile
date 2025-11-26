@@ -14,11 +14,11 @@ prepare:
 
 # Run tests
 test:
-	GOEXPERIMENT=jsonv2 go test -race -cover -coverprofile=lapsus.coverage ./...
+	GOEXPERIMENT=jsonv2 go test -race -cover -coverprofile=errors.coverage ./...
 
 # Show code coverage report
 coverage:
-	GOEXPERIMENT=jsonv2 go tool cover -html=lapsus.coverage
+	GOEXPERIMENT=jsonv2 go tool cover -html=errors.coverage
 
 # Executes golangci linter
 lint: fmt

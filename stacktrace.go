@@ -1,4 +1,4 @@
-package lapsus
+package errors
 
 import (
 	"encoding/json/jsontext"

@@ -1,4 +1,4 @@
-package lapsus
+package errors
 
 func (suite *ErrorsSuite) TestWithLabels() {
 	var fac = NewBadRequestFactory("error")
