@@ -49,12 +49,16 @@ func Join(errs ...error) error {
 	return errors.Join(errs...)
 }
 
-func IsUserFriendly(err error) bool {
+func Labels(err error) LabelList {
 	if t, ok := err.(*implementation); ok {
-		return t.labels.Has(LabelUserFriendly)
+		return t.labels
 	}
 
-	return false
+	return LabelList{}
+}
+
+func IsUserFriendly(err error) bool {
+	return Labels(err).Has(LabelUserFriendly)
 }
 
 func In(err error, target ...any) bool {

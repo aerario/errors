@@ -198,13 +198,14 @@ func (suite *ErrorsSuite) TestStackTrace() {
 	var (
 		expected = []stackTraceFrame{
 			{
-				Kind:           "Authentication",
-				IsUserFriendly: true,
-				Error:          "invalid login/password",
-				Location:       "kek.go:100500",
+				Kind:     "Authentication",
+				Labels:   LabelList{LabelUserFriendly},
+				Error:    "invalid login/password",
+				Location: "kek.go:100500",
 			},
 			{
 				Kind:     "Authorization",
+				Labels:   LabelList{},
 				Error:    "access denied",
 				Location: "bek.go:500100",
 			},
@@ -243,13 +244,14 @@ func (suite *ErrorsSuite) TestRawStackTrace() {
 	var (
 		expected = []stackTraceFrame{
 			{
-				Kind:           "Authentication",
-				IsUserFriendly: true,
-				Error:          "invalid login/password",
-				Location:       "kek.go:100500",
+				Kind:     "Authentication",
+				Labels:   LabelList{LabelUserFriendly},
+				Error:    "invalid login/password",
+				Location: "kek.go:100500",
 			},
 			{
 				Kind:     "Authorization",
+				Labels:   LabelList{},
 				Error:    "access denied",
 				Location: "bek.go:500100",
 			},

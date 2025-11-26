@@ -16,10 +16,10 @@ type Stacker interface {
 }
 
 type stackTraceFrame struct {
-	Kind           string `json:"kind"`
-	IsUserFriendly bool   `json:"isUserFriendly"`
-	Error          string `json:"error"`
-	Location       string `json:"location,omitempty"`
+	Kind     string    `json:"kind"`
+	Labels   LabelList `json:"labels"`
+	Error    string    `json:"error"`
+	Location string    `json:"location,omitempty"`
 }
 
 type location struct {
@@ -47,8 +47,8 @@ func (self *implementation) StackTrace() jsontext.Value {
 
 	for err != nil {
 		var frame = stackTraceFrame{
-			Kind:           kindName(KindOf(err)),
-			IsUserFriendly: IsUserFriendly(err),
+			Kind:   kindName(KindOf(err)),
+			Labels: Labels(err),
 		}
 
 		if t, ok := err.(fmt.Stringer); ok {

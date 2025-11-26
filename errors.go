@@ -11,11 +11,12 @@ var DefaultUserFriendlyError = "something went wrong"
 
 type Error interface {
 	Annotate(message string, args ...interface{}) Error
-	Wrap(err error) Error
+	Wrap(error) Error
 	Unwrap() error
 	Labels() LabelList
 	WithLabels(...Label) Error
 	Details() map[string]string
+	WithDetails(map[string]string) Error
 
 	error
 }
@@ -79,6 +80,12 @@ func (self *implementation) Details() map[string]string {
 	maps.Copy(details, self.details)
 
 	return details
+}
+
+func (self *implementation) WithDetails(in map[string]string) Error {
+	maps.Copy(self.details, in)
+
+	return self
 }
 
 // External interface implementations
