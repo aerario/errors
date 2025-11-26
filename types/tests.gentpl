@@ -1,0 +1,43 @@
+package lapsus
+
+import (
+	"testing"
+
+	"github.com/stretchr/testify/suite"
+)
+
+type ErrorKindSuite struct {
+	suite.Suite
+}
+
+func TestErrorKindSuite(t *testing.T) {
+	suite.Run(t, new(ErrorKindSuite))
+}
+
+{{range $t := .Types}}
+func (suite *ErrorKindSuite) Test{{ $t }}Error() {
+	var err = New{{ $t }}Error("something %v", "{{ $t }}")
+	suite.Require().NotNil(err)
+
+	var t, ok = err.(*implementation)
+	suite.Require().True(ok)
+	suite.Require().Equal(err.Error(), DefaultUserFriendlyError)
+	suite.Require().Equal(t.String(), "something {{ $t }}")
+	suite.Require().Equal(ErrKind{{ $t }}, KindOf(err))
+}
+
+func (suite *ErrorKindSuite) Test{{ $t }}Factory() {
+	var fac = New{{ $t }}Factory("something %v")
+	suite.Require().NotNil(fac)
+
+	var err = fac.New("{{ $t }}")
+	suite.Require().NotNil(err)
+
+	var t, ok = err.(*implementation)
+	suite.Require().True(ok)
+	suite.Require().Equal(err.Error(), "something {{ $t }}")
+	suite.Require().Equal(t.String(), "something {{ $t }}")
+	suite.Require().Equal(ErrKind{{ $t }}, KindOf(err))
+	suite.Require().True(Is(err, fac))
+}
+{{end}}
