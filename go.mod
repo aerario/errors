@@ -1,4 +1,4 @@
-module github.com/aerario/lapsus
+module github.com/aerario/errors
 
 go 1.25
 
