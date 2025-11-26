@@ -1,4 +1,4 @@
-package lapsus
+package errors
 
 const (
 	LabelUserFriendly Label = "user-friendly"

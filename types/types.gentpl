@@ -1,4 +1,4 @@
-package lapsus
+package errors
 
 type Kind uint
 
